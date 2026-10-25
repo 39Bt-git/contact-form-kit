@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Form Kit Demo</title>
+  <link rel="stylesheet" href="../web/contact-form.css">
+  <style>
+    body { margin: 0; background: #f6f4f1; color: #16181d; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 40px 16px 60px; }
+    h1 { margin: 0 0 6px; font-size: 28px; }
+    .lede { margin: 0 0 24px; color: #5b6270; line-height: 1.5; }
+    .card { background: #fff; border-radius: 18px; padding: 28px; box-shadow: 0 8px 28px rgba(20, 20, 30, .06); }
+    .tester { margin-bottom: 22px; padding: 16px 18px; border: 1px dashed #d8d2c8; border-radius: 14px; background: #fcfbf9; }
+    .tester label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+    .tester-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tester input { flex: 1 1 320px; min-width: 0; font: inherit; font-size: 14px; padding: 10px 12px; border: 1px solid #e3ded6; border-radius: 10px; }
+    .tester a { align-self: center; font-size: 14px; color: #0a58ca; }
+    .tester p { margin: 8px 0 0; font-size: 13px; color: #5b6270; }
+    @media (max-width: 640px) { .card { padding: 20px 16px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Contact Form Kit</h1>
+    <p class="lede">Paste a client's Apps Script web app URL below, then send yourself a test message. Nothing here is saved; reloading clears it.</p>
+
+    <div class="card">
+      <div class="tester">
+        <label for="endpoint">Web app URL (ends in /exec)</label>
+        <div class="tester-row">
+          <input id="endpoint" type="url" placeholder="https://script.google.com/macros/s/…/exec">
+          <a id="check" href="#" target="_blank" rel="noopener">Check deployment ↗</a>
+        </div>
+        <p>"Check deployment" should open a page showing <code>{"ok":true,"service":"contact-form-kit",…}</code>.</p>
+      </div>
+
+      <!-- Same markup as web/contact-form.html -->
+      <form class="cfk-form" data-cfk-endpoint="">
+        <div class="cfk-field">
+          <label for="cfk-name">Name</label>
+          <input id="cfk-name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="cfk-field">
+          <label for="cfk-email">Email</label>
+          <input id="cfk-email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="cfk-field">
+          <label for="cfk-phone">Phone <span>(optional)</span></label>
+          <input id="cfk-phone" name="phone" type="tel" autocomplete="tel">
+        </div>
+        <div class="cfk-field">
+          <label for="cfk-company">Company <span>(optional)</span></label>
+          <input id="cfk-company" name="company" type="text" autocomplete="organization">
+        </div>
+        <div class="cfk-field cfk-full">
+          <label for="cfk-topic">What can we help with?</label>
+          <select id="cfk-topic" name="topic" required>
+            <option value="" disabled selected>Choose one</option>
+            <option>Service one</option>
+            <option>Service two</option>
+            <option>Service three</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="cfk-field cfk-full">
+          <label for="cfk-message">Message</label>
+          <textarea id="cfk-message" name="message" rows="5" required placeholder="How can we help?"></textarea>
+        </div>
+        <input class="cfk-trap" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="cfk-foot cfk-full">
+          <button class="cfk-button" type="submit"><svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>Send message</button>
+          <p class="cfk-status" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="../web/contact-form.js"></script>
+  <script>
+    // Demo only: copy the pasted URL onto the form and the "Check deployment" link.
+    const input = document.getElementById("endpoint");
+    const form = document.querySelector(".cfk-form");
+    const check = document.getElementById("check");
+    input.addEventListener("input", () => {
+      const url = input.value.trim();
+      form.setAttribute("data-cfk-endpoint", url);
+      check.href = url || "#";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!--
+  Contact Form Kit: form snippet. Copy this into the client's page.
+  Also include on that page:
+    <link rel="stylesheet" href="contact-form.css">
+    <script src="contact-form.js" defer></script>
+
+  For each client, change:
+    1. data-cfk-endpoint  -> their Apps Script web app URL (ends in /exec)
+    2. the topic options  -> their services (or delete the whole topic field)
+    3. optional: data-cfk-success / data-cfk-fallback messages
+  Field names (name, email, phone, company, topic, message) must match FIELDS in Code.gs.
+-->
+<form class="cfk-form"
+      data-cfk-endpoint=""
+      data-cfk-fallback="You can also call us at (555) 010-0000.">
+  <div class="cfk-field">
+    <label for="cfk-name">Name</label>
+    <input id="cfk-name" name="name" type="text" autocomplete="name" required>
+  </div>
+  <div class="cfk-field">
+    <label for="cfk-email">Email</label>
+    <input id="cfk-email" name="email" type="email" autocomplete="email" required>
+  </div>
+  <div class="cfk-field">
+    <label for="cfk-phone">Phone <span>(optional)</span></label>
+    <input id="cfk-phone" name="phone" type="tel" autocomplete="tel">
+  </div>
+  <div class="cfk-field">
+    <label for="cfk-company">Company <span>(optional)</span></label>
+    <input id="cfk-company" name="company" type="text" autocomplete="organization">
+  </div>
+  <div class="cfk-field cfk-full">
+    <label for="cfk-topic">What can we help with?</label>
+    <select id="cfk-topic" name="topic" required>
+      <option value="" disabled selected>Choose one</option>
+      <option>Service one</option>
+      <option>Service two</option>
+      <option>Service three</option>
+      <option>Something else</option>
+    </select>
+  </div>
+  <div class="cfk-field cfk-full">
+    <label for="cfk-message">Message</label>
+    <textarea id="cfk-message" name="message" rows="5" required placeholder="How can we help?"></textarea>
+  </div>
+  <!-- Spam trap: hidden from people; bots fill it in and the message is dropped -->
+  <input class="cfk-trap" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <div class="cfk-foot cfk-full">
+    <button class="cfk-button" type="submit"><svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>Send message</button>
+    <p class="cfk-status" role="status" aria-live="polite"></p>
+  </div>
+</form>

@@ -1,0 +1,96 @@
+/* Contact Form Kit: form styles.
+   Everything is prefixed cfk- so it won't clash with a site's own CSS.
+   Match a client's brand by changing the variables below (or overriding them in their CSS). */
+.cfk-form {
+  --cfk-accent: #f2601f;      /* button and focus color */
+  --cfk-accent-text: #fff;    /* text on the button */
+  --cfk-text: #16181d;
+  --cfk-muted: #5b6270;
+  --cfk-border: #e3ded6;
+  --cfk-field-bg: #fff;
+  --cfk-radius: 12px;
+  --cfk-error: #b91c1c;
+  --cfk-ok: #15803d;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 18px;
+  font: inherit;
+  color: var(--cfk-text);
+}
+.cfk-form *, .cfk-form *::before, .cfk-form *::after { box-sizing: border-box; }
+
+.cfk-field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.cfk-full { grid-column: 1 / -1; }
+.cfk-field label { font-size: 13px; font-weight: 600; }
+.cfk-field label span { font-weight: 400; color: var(--cfk-muted); }
+
+.cfk-field input,
+.cfk-field select,
+.cfk-field textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  color: var(--cfk-text);
+  background: var(--cfk-field-bg);
+  border: 1px solid var(--cfk-border);
+  border-radius: var(--cfk-radius);
+  padding: 12px 14px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.cfk-field textarea { resize: vertical; min-height: 130px; line-height: 1.5; }
+.cfk-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 40px;
+  cursor: pointer;
+  background: var(--cfk-field-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235b6270' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 16px;
+}
+.cfk-field select:invalid { color: #9aa0aa; }
+.cfk-field select option { color: var(--cfk-text); }
+.cfk-field select option[disabled] { color: #9aa0aa; }
+
+.cfk-field input:focus,
+.cfk-field select:focus,
+.cfk-field textarea:focus {
+  outline: none;
+  border-color: var(--cfk-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--cfk-accent) 15%, transparent);
+}
+.cfk-invalid input,
+.cfk-invalid select,
+.cfk-invalid textarea {
+  border-color: var(--cfk-error);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--cfk-error) 10%, transparent);
+}
+
+/* Spam trap: kept off-screen so people never see it */
+.cfk-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+.cfk-foot { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.cfk-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--cfk-accent-text);
+  background: var(--cfk-accent);
+  border: 0;
+  border-radius: 999px;
+  padding: 13px 26px;
+  cursor: pointer;
+  transition: transform .2s, filter .2s;
+}
+.cfk-button:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.cfk-button:disabled { opacity: .6; cursor: wait; transform: none; }
+.cfk-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.cfk-status { margin: 0; font-size: 14px; color: var(--cfk-muted); }
+.cfk-status.cfk-ok { color: var(--cfk-ok); font-weight: 600; }
+.cfk-status.cfk-error { color: var(--cfk-error); }
+
+@media (max-width: 640px) {
+  .cfk-form { grid-template-columns: 1fr; }
+}
