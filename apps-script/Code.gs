@@ -18,6 +18,8 @@ const CONFIG = {
 
   // Optional: also log every message as a row in a Google Sheet.
   // Paste the sheet's ID (the long part of its URL between /d/ and /edit). Leave empty to skip.
+  // If you use this, also add "https://www.googleapis.com/auth/spreadsheets" to oauthScopes
+  // in appsscript.json, then deploy a new version and re-authorize.
   SHEET_ID: "",
 
   // Fields the form may send, with their maximum lengths. Anything else is ignored.
@@ -52,7 +54,15 @@ function doPost(e) {
     if (!underRateLimit()) return reply({ ok: false, error: "Too many messages right now. Please try again later." });
 
     sendEmail(data);
-    if (CONFIG.SHEET_ID) logToSheet(data);
+    // The email is the part that matters. If the optional Sheet log fails (e.g. the
+    // spreadsheets permission wasn't added), record it for you but still report success.
+    if (CONFIG.SHEET_ID) {
+      try {
+        logToSheet(data);
+      } catch (err) {
+        console.error("Sheet logging failed (email was still sent): " + err);
+      }
+    }
     return reply({ ok: true });
   } catch (err) {
     console.error(err);

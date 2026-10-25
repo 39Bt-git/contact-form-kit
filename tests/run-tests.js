@@ -113,6 +113,31 @@ test("optional Google Sheet log gets a header row then data", () => {
   assert.strictEqual(rows[1][1], "Arturo Lopez");
 });
 
+test("a Sheet logging failure still reports success (the email went out)", () => {
+  const { ctx, sent, post, CONFIG } = load();
+  CONFIG.SHEET_ID = "sheet-123";
+  ctx.SpreadsheetApp.openById = () => { throw new Error("no spreadsheets permission"); };
+  assert.deepStrictEqual(post(good), { ok: true });
+  assert.strictEqual(sent.length, 1);
+});
+
+test("appsscript.json grants only send-mail and email-address permissions", () => {
+  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "apps-script", "appsscript.json"), "utf8"));
+  assert.deepStrictEqual(manifest.oauthScopes.sort(), [
+    "https://www.googleapis.com/auth/script.send_mail",
+    "https://www.googleapis.com/auth/userinfo.email",
+  ]);
+});
+
+test("Code.gs only uses services those permissions cover", () => {
+  // These would need wider access (reading Gmail, calling other sites, Drive files...)
+  const risky = ["GmailApp", "UrlFetchApp", "DriveApp", "DocumentApp", "CalendarApp", "PropertiesService.getUserProperties"];
+  risky.forEach((name) => assert.ok(!code.includes(name), `Code.gs uses ${name}`));
+  // SpreadsheetApp is only allowed inside the optional logToSheet
+  const outside = code.replace(/function logToSheet[\s\S]*?\r?\n}\r?\n/, ""); // Windows or Unix line endings
+  assert.ok(!outside.includes("SpreadsheetApp"), "SpreadsheetApp used outside logToSheet");
+});
+
 test("a mail failure returns ok:false instead of crashing", () => {
   const { ctx, post } = load();
   ctx.MailApp.sendEmail = () => { throw new Error("quota"); };
