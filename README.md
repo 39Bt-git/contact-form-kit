@@ -89,3 +89,7 @@ Edits to `Code.gs` don't go live until you redeploy: **Deploy → Manage deploym
 | Messages stop arriving mid-day | The daily email quota is used up; it resets within 24 hours. |
 | Emails arrive but the Sheet stays empty | Add the spreadsheets scope to `appsscript.json`, deploy a new version, and re-authorize. Errors show under **Executions** in the Apps Script editor. |
 | Don't add custom headers to the request | Apps Script can't answer the browser's CORS pre-check; `contact-form.js` sends plain form data on purpose. |
+
+## License
+
+MIT. Free to use, change, and use in paid client work; keep the copyright notice in [LICENSE](LICENSE).
